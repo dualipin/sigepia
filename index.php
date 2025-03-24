@@ -70,7 +70,7 @@
                             <!--<div>
                             <br>
                             --><button type="button" class="btn btn-outline-secondary"
-                            onclick="location.href='regisuser.php'">Registrar Alumnos</button>
+                            onclick="location.href='signup.php'">Registrar Alumnos</button>
                             <!--<button type="button" class="btn btn-outline-secondary">Registrarse Docentes</button>
                         </div>-->
                         </div>
