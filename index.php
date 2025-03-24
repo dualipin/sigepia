@@ -1,70 +1,136 @@
-<?php
-include __DIR__ . "/components/header.php";
-?>
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, { initialView: 'dayGridMonth' });
+            calendar.render();
+        });
+    </script>
+</head>
 
-<div class="container mt-5">
-    <form action="procesar_titulado.php" method="POST">
-        <h1 class="mb-4">Proceso de Titulación</h1>
-
-        <!-- Fila 1: Nombre y Apellido -->
-        <div class="row mb-3">
-            <div class="col-md-2">
-                <label for="nombre" class="form-label fw-bold">Clave</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" placeholder=""
-                    required>
+<body class="d-flex flex-column min-vh-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>Sistema de Gestión de Proyectos de Alimentaria</h1>
+                <br>
             </div>
-            <div class="col-md-3">
-                <label for="apellido" class="form-label fw-bold">Tipo Reactivo</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" placeholder=""
-                    required>
+        </div>
+
+        <!-- Noticias -->
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h2>Noticias</h2>
+                <marquee behavior="scroll" direction="left">
+                    <img src="assets/img/logo.png" class="img-thumbnail" height="150" width="150">
+                </marquee>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <!-- Calendario -->
+            <div class="col-sm-4">
+                <h2>Calendario</h2>
+                <div id="calendar"></div>
             </div>
 
-            <!-- Fila 2: Fecha de Titulación y Titulado -->
+            <!-- Formulario de Inicio de Sesión -->
+            <div class="col-sm-4">
+                <!-- Formulario de inicio de sesión -->
+                <div class="row">
+                    <form class="form-control">
+                        <h2>Inicio de Sesión</h2>
+                        <div class="mb-3">
+                            <label for="Usuario" class="form-label">Usuario</label>
+                            <input type="text" id="Usuario" name="Usuario" placeholder="Escribe tu usuario"
+                                class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" name="password" id="password" placeholder="Escribe tu contraseña"
+                                class="form-control">
+                        </div>
+                        <div class="mb-3" style="text-align: center;">
 
-            <div class="col-md-3">
-                <label for="fecha_titulacion" class="form-label fw-bold">Medida de volumen</label>
-                <input type="text" class="form-control" id="fecha_titulacion" name="fecha_titulacion" required>
-            </div>
-            <div class="col-md-3">
-                <label for="titulado" class="form-label fw-bold">Reacción</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="titulado" name="titulado" placeholder="" required>
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="location.href='prod_activo.html'">Ingresar</button>
+                               
+                            <!--<div>
+                            <br>
+                            --><button type="button" class="btn btn-outline-secondary"
+                            onclick="location.href='regisuser.php'">Registrar Alumnos</button>
+                            <!--<button type="button" class="btn btn-outline-secondary">Registrarse Docentes</button>
+                        </div>-->
+                        </div>
+                    </form>
+
                 </div>
             </div>
+
+            <!-- Visualización de Proyectos -->
+            <div class="col-sm-4">
+                <form class="form-control">
+
+                    <h2>Visualización de los proyectos</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="#proyecto1">Mole</a></li>
+                        <li class="list-group-item"><a href="#proyecto2">Mermelada de tomate</a></li>
+                        <li class="list-group-item"><a href="#proyecto3">Proyecto 3</a></li>
+                        <li class="list-group-item"><a href="#proyecto4">Proyecto 4</a></li>
+                    </ul>
+                </form>
+            </div>
         </div>
 
-        <!-- Fila 3: Institución -->
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <label for="institucion" class="form-label fw-bold">Sustancia</label>
-                <input type="text" class="form-control" id="institucion" name="institucion" placeholder="" required>
-            </div>
-            <div class="col-md-3">
-                <label for="institucion" class="form-label fw-bold">Punto de equivalencia</label>
-                <input type="text" class="form-control" id="institucion" name="institucion" placeholder="" required>
-            </div>
-            <div class="col-md-3">
-                <label for="institucion" class="form-label fw-bold">Punto final</label>
-                <input type="text" class="form-control" id="institucion" name="institucion" placeholder="" required>
-            </div>
+        <br>
+        <div class="text-center">
+            <a href="https://macuspana.tecnm.mx/" class="btn btn-link">Página ITSM</a>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label for="institucion" class="form-label fw-bold">Requisitos</label>
-                <textarea class="form-control" name="" id=""></textarea>
-            </div>
+
+    </div>
+    <!-- Footer -->
+    <footer class="bg-light mt-auto text-center text-lg-start mt-3">
+        <div class="text-center p-3">
+            © 2025 Sistema de Gestión de Proyectos de Alimentaria: 
+            <a class="text-dark" href="https://macuspana.tecnm.mx/">macuspana.tecnm.mx</a>
         </div>
-        <!-- Botón de envío -->
-        <div class="row mt-3">
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-primary w-100">Enviar</button>
-            </div>
-        </div>
-    </form>
-</div>
+    </footer>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            
+            let formData = new FormData(this);
+
+            fetch("login.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    window.location.href = data.redirect;
+                } else {
+                    document.getElementById("loginMessage").innerText = data.message;
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+
+</body>
+</html>
 
 
-
-<?php
-include __DIR__ . "/components/footer.php";
