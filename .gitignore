@@ -1,34 +1,12 @@
-# Ignore composer dependencies
-/vendor/
-
-/.bin/
-
-# Ignore environment variables
-.env
-
-# Ignore IDE and editor specific files
-.idea/
+# Build and IDE files
+dist/
 .vscode/
-*.sublime-project
-*.sublime-workspace
 
-# Ignore OS generated files
-.DS_Store
-Thumbs.db
-
-# Ignore log files and databases
+# Vendors and temporary files
+/vendor/*
+/tmp/*
 *.log
-*.sql
-*.sqlite
 
-# Ignore PHPUnit test results
-phpunit.xml
-phpunit.xml.dist
-
-# Ignore other files
-*.cache
-*.bak
-*.backup
-*.swp
-*.tmp
-*.temp
+# Environment
+.env
+.env.*
