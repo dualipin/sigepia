@@ -1,6 +1,9 @@
 <?php
 
+// Se carga el archivo con las rutas y controladores
 require_once '../core/Router.php';
+
+// Se carga el archivo de configuración
 require_once '../config/config.php';
 
 // Reconocer la URL de la petición
