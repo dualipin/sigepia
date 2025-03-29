@@ -12,3 +12,5 @@ dist/
 .env.*
 
 /config/Database.php
+*.sql
+*.sqlite
