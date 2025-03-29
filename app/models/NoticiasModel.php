@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '../../../config/database.php';
 
 class NoticiasModel
 {
@@ -7,7 +8,7 @@ class NoticiasModel
 
     public function __construct($db)
     {
-        $this->db = $db;
+        $this->db = new Connec;
     }
 
     public function crearNoticia($titulo, $descripcion): bool

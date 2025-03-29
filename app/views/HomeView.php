@@ -1,17 +1,20 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, { initialView: 'dayGridMonth' });
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+            });
             calendar.render();
         });
     </script>
@@ -31,8 +34,9 @@
             <div class="col-sm-12 text-center">
                 <h2>Noticias</h2>
                 <marquee behavior="scroll" direction="left">
-                    <img src="Imagen/logo.png" class="img-thumbnail" height="150" width="150">
-                    <br>Aquí irá el contenido de las noticias corredizas
+                    <ul id="ultimas-noticias" class="list-unstyled d-flex gap-4">
+
+                    </ul>
                 </marquee>
             </div>
         </div>
@@ -91,33 +95,61 @@
         <!-- Footer -->
         <footer class="bg-light text-center text-lg-start mt-3">
             <div class="text-center p-3">
-                © 2025 Sistema de Gestión de Proyectos de Alimentaria: 
+                © 2025 Sistema de Gestión de Proyectos de Alimentaria:
                 <a class="text-dark" href="https://macuspana.tecnm.mx/">macuspana.tecnm.mx</a>
             </div>
         </footer>
     </div>
 
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function (event) {
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
             event.preventDefault();
-            
+
             let formData = new FormData(this);
 
             fetch("login.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    window.location.href = data.redirect;
-                } else {
-                    document.getElementById("loginMessage").innerText = data.message;
-                }
-            })
-            .catch(error => console.error("Error:", error));
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        window.location.href = data.redirect;
+                    } else {
+                        document.getElementById("loginMessage").innerText = data.message;
+                    }
+                })
+                .catch(error => console.error("Error:", error));
         });
     </script>
 
+    <script>
+        async function fetchNoticias() {
+            try {
+                const response = await fetch('/noticias/latest')
+                if (!response.ok) {
+                    throw new Error('Ocurrió un error al consultar las ultimas noticias, posible error de red' + response.statusText);
+                }
+
+                const data = await response.json();
+
+                const noticiasList = document.getElementById('ultimas-noticias');
+                noticiasList.innerHTML = ''; // Limpiar la lista antes de agregar nuevas noticias
+
+                data.forEach(noticia => {
+                    const li = document.createElement('li');
+                    const bold = document.createElement('strong');
+                    bold.textContent = noticia.fecha + ' - ';
+                    li.appendChild(bold);
+                    li.textContent = noticia.titulo;
+                    noticiasList.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error al consultar noticias:", error);
+            }
+        }
+    </script>
+
 </body>
+
 </html>
