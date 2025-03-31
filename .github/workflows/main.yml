@@ -30,3 +30,4 @@ jobs:
             **/.github*
             **/*.md
             **/*.sql
+            **/sql/*
