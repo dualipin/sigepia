@@ -1,6 +1,4 @@
 <?php
-require_once __DIR__ . '/Controller.php';
-
 /**
  * Clase Router
  *
@@ -39,10 +37,21 @@ require_once __DIR__ . '/Controller.php';
  */
 class Router
 {
-    public function dispatch()
+    /**
+     * Proveer el enrutamiento de la aplicación web.
+     * 
+     * Este método analiza la URL solicitada, determina el controlador y método apropiados,
+     * y ejecuta dicho método con los parámetros proporcionados.
+     * 
+     * @param string $initialRoute La ruta inicial para eliminar de la URL.
+     * @return void
+     */
+    public function dispatch($initialRoute = "")
     {
+
+
         // Elimina la barra inicial y divide la URL en segmentos
-        $uri = trim($_SERVER['REQUEST_URI'], '/');
+        $uri = trim($_SERVER['REQUEST_URI'], "/$initialRoute");
         $segments = explode('/', $uri);
 
         // Si la URL está vacía, redirige a la página de inicio

@@ -16,6 +16,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Creacion de variables de entorno en .htaccess
+        run: echo "SetEnv INITIAL_URI $INITIAL_ROUTE" >> .htaccess
+        env:
+          INITIAL_ROUTE: 
+
       - name: Subir archivos al servidor FTP 🚀🚀📂📂
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
