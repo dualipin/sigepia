@@ -46,12 +46,12 @@ class Router
      * @param string $initialRoute La ruta inicial para eliminar de la URL.
      * @return void
      */
-    public function dispatch($initialRoute = "")
+    public function dispatch($initialRoute = "/")
     {
 
 
         // Elimina la barra inicial y divide la URL en segmentos
-        $uri = trim($_SERVER['REQUEST_URI'], "/$initialRoute");
+        $uri = trim($_SERVER['REQUEST_URI'], "$initialRoute");
         $segments = explode('/', $uri);
 
         // Si la URL está vacía, redirige a la página de inicio
