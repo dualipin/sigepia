@@ -1,58 +1,91 @@
 <?php
+require_once __DIR__ . '/Controller.php';
 
 /**
- * Esta clase maneja el enrutamiento de la aplicación.
- * Analiza la URL, determina el controlador y método apropiados,
- * y los invoca con los parámetros proporcionados.
+ * Clase Router
+ *
+ * Esta clase maneja el enrutamiento de la aplicación web. Su propósito es analizar la URL solicitada,
+ * determinar el controlador y método apropiados, y ejecutar dicho método con los parámetros proporcionados.
+ * 
+ * Métodos principales:
+ * - dispatch(): Realiza el análisis de la URL, localiza el controlador y método correspondiente, 
+ *   y los ejecuta con los parámetros adecuados.
+ *
+ * Detalles de implementación:
+ * - La URL se divide en segmentos utilizando '/' como delimitador.
+ * - El primer segmento se utiliza para determinar el controlador.
+ * - El segundo segmento se utiliza para determinar el método del controlador.
+ * - Los segmentos restantes se consideran parámetros para el método.
+ * - Si no se proporciona un controlador o método, se utilizan valores predeterminados:
+ *   - Controlador predeterminado: HomeController
+ *   - Método predeterminado: index
+ * - Se soporta la búsqueda de controladores en subcarpetas dentro de la carpeta de controladores.
+ *
+ * Manejo de errores:
+ * - Si el archivo del controlador no existe, se muestra un mensaje de error indicando que el controlador no fue encontrado.
+ * - Si la clase del controlador no existe, se muestra un mensaje de error indicando que la clase no fue encontrada.
+ * - Si el método del controlador no existe, se muestra un mensaje de error indicando que el método no fue encontrado.
+ *
+ * Ejemplo de uso:
+ * - URL: /productos/ver/123
+ *   - Controlador: ProductosController
+ *   - Método: ver
+ *   - Parámetros: [123]
+ *
+ * Requisitos:
+ * - Los controladores deben estar ubicados en la carpeta "../app/controllers/".
+ * - Los nombres de los controladores deben seguir el formato: NombreController.php.
+ * - Los controladores deben estar dentro del espacio de nombres "App\Controllers" o sus subespacios de nombres.
  */
 class Router
 {
-    public function dispatch($url)
+    public function dispatch()
     {
-        // Eliminar la barra inicial y dividir la URL en segmentos
+        // Elimina la barra inicial y divide la URL en segmentos
         $uri = trim($_SERVER['REQUEST_URI'], '/');
-        $segmentos = explode('/', $uri);
+        $segments = explode('/', $uri);
 
-        // Si la URL está vacía, redirigir a la página de inicio
-        $espacioDeNombres = "App\\Controllers";
-        $nombreControlador = !empty($segmentos[0]) ? ucfirst($segmentos[0]) : 'Home';
-        $metodo = $segmentos[1] ?? 'index';
-        $parametros = array_slice($segmentos, 2);
+        // Si la URL está vacía, redirige a la página de inicio
+        $namespace = "App\\Controllers";
+        $controllerName = !empty($segments[0]) ? ucfirst($segments[0]) . 'Controller' : 'HomeController';
+        $method = $segments[1] ?? 'index';
+        $parameters = array_slice($segments, 2);
 
-        // Soporte para subcarpetas (módulos)
-        $rutaControlador = "../app/controllers/$nombreControlador.php";
+        // Construye la ruta del controlador
+        $controllerPath = "../app/controllers/$controllerName.php";
 
-        // Verificar si el controlador existe en la carpeta raíz
-        if (!file_exists($rutaControlador) && isset($segmentos[1])) {
-            // Si no existe, verificar si el controlador está en una subcarpeta
-            $espacioDeNombres .= "\\" . ucfirst($segmentos[0]);
-            // Construir la ruta del controlador en la subcarpeta
-            $nombreControlador = ucfirst($segmentos[1]);
-            // Verificar si el controlador existe en la subcarpeta
-            $rutaControlador = "../app/controllers/$segmentos[0]/$nombreControlador.php";
-            // Si no existe, usar el controlador por defecto
-            $metodo = $segmentos[2] ?? 'index';
-            $parametros = array_slice($segmentos, 3);
+        // Verifica si el controlador existe en la carpeta raíz
+        if (!file_exists($controllerPath) && isset($segments[1])) {
+            // Si no existe, verifica si el controlador está en una subcarpeta
+            $namespace .= "\\" . ucfirst($segments[0]);
+
+            // Construye la ruta del controlador en la subcarpeta
+            $controllerName = ucfirst($segments[1]) . 'Controller';
+            $controllerPath = "../app/controllers/{$segments[0]}/$controllerName.php";
+
+            // Actualiza el método y los parámetros
+            $method = $segments[2] ?? 'index';
+            $parameters = array_slice($segments, 3);
         }
 
-        // Verificar si el controlador existe en la carpeta raíz
-        $claseControlador = "$espacioDeNombres\\$nombreControlador";
+        // Construye el nombre completo de la clase del controlador
+        $controllerClass = "$namespace\\$controllerName";
 
-        // Verificar si el controlador existe y cargarlo    
-        if (file_exists($rutaControlador)) {
-            require_once $rutaControlador;
-            if (class_exists($claseControlador)) {
-                $instanciaControlador = new $claseControlador();
-                if (method_exists($instanciaControlador, $metodo)) {
-                    call_user_func_array([$instanciaControlador, $metodo], $parametros);
+        // Verifica si el controlador existe y lo carga
+        if (file_exists($controllerPath)) {
+            require_once $controllerPath;
+            if (class_exists($controllerClass)) {
+                $controllerInstance = new $controllerClass();
+                if (method_exists($controllerInstance, $method)) {
+                    call_user_func_array([$controllerInstance, $method], $parameters);
                 } else {
-                    echo "Error: Método no encontrado ($metodo)";
+                    echo "Error: Método no encontrado ($method)";
                 }
             } else {
-                echo "Error: Clase de controlador no encontrada ($claseControlador)";
+                echo "Error: Clase del controlador no encontrada ($controllerClass)";
             }
         } else {
-            echo "Error: Controlador no encontrado ($rutaControlador)";
+            echo "Error: Controlador no encontrado ($controllerPath)";
         }
     }
 }

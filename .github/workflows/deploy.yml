@@ -3,7 +3,10 @@ name: Despliegue a producción mediante FTP 🚀🚀
 on:
   push:
     branches:
-      - main
+      - develop
+  pull_request:
+    branches:
+      - develop
 
 jobs:
   deploy:
@@ -26,3 +29,4 @@ jobs:
             **/.git*
             **/.github*
             **/*.md
+            **/*.sql

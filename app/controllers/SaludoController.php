@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . "../../../core/Controller.php";
+namespace App\Controllers;
+
+use Core\Controller;
 
 class SaludoController extends Controller
 {
