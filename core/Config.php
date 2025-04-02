@@ -1,3 +1,3 @@
 <?php
 
-define('INITIAL_ROUTE', getenv('INITIAL_ROUTE') ?: '/');
+define('INITIAL_ROUTE', getenv('INITIAL_ROUTE') ?: '/sigepia');

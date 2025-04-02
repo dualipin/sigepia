@@ -17,7 +17,7 @@
  * - Si no se proporciona un controlador o método, se utilizan valores predeterminados:
  *   - Controlador predeterminado: HomeController
  *   - Método predeterminado: index
- * - Se soporta la búsqueda de controladores en subcarpetas dentro de la carpeta de controladores.
+ * - Soporta la búsqueda de controladores en subcarpetas dentro de la carpeta de controladores.
  *
  * Manejo de errores:
  * - Si el archivo del controlador no existe, se muestra un mensaje de error indicando que el controlador no fue encontrado.
@@ -38,7 +38,7 @@
 class Router
 {
     /**
-     * Proveer el enrutamiento de la aplicación web.
+     * Proporciona el enrutamiento de la aplicación web.
      * 
      * Este método analiza la URL solicitada, determina el controlador y método apropiados,
      * y ejecuta dicho método con los parámetros proporcionados.
@@ -48,39 +48,49 @@ class Router
      */
     public function dispatch($initialRoute = "/")
     {
+        $route = trim($initialRoute, "/");
 
-
-        // Elimina la barra inicial y divide la URL en segmentos
-        $uri = trim($_SERVER['REQUEST_URI'], "$initialRoute");
-        $segments = explode('/', $uri);
-
-        // Si la URL está vacía, redirige a la página de inicio
-        $namespace = "App\\Controllers";
-        $controllerName = !empty($segments[0]) ? ucfirst($segments[0]) . 'Controller' : 'HomeController';
-        $method = $segments[1] ?? 'index';
-        $parameters = array_slice($segments, 2);
-
-        // Construye la ruta del controlador
-        $controllerPath = "../app/controllers/$controllerName.php";
-
-        // Verifica si el controlador existe en la carpeta raíz
-        if (!file_exists($controllerPath) && isset($segments[1])) {
-            // Si no existe, verifica si el controlador está en una subcarpeta
-            $namespace .= "\\" . ucfirst($segments[0]);
-
-            // Construye la ruta del controlador en la subcarpeta
-            $controllerName = ucfirst($segments[1]) . 'Controller';
-            $controllerPath = "../app/controllers/{$segments[0]}/$controllerName.php";
-
-            // Actualiza el método y los parámetros
-            $method = $segments[2] ?? 'index';
-            $parameters = array_slice($segments, 3);
+        // Normalizar la ruta inicial
+        if (empty($route)) {
+            $route = "/";
+        } elseif (substr($route, -1) !== '/') {
+            $route .= '/';
+        }
+        if (substr($route, 0, 1) !== '/') {
+            $route = '/' . $route;
         }
 
-        // Construye el nombre completo de la clase del controlador
+        // Procesar la URI solicitada
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $uri = trim($uri, "/");
+        if (!empty($route) && strpos($uri, trim($route, "/")) === 0) {
+            $uri = substr($uri, strlen(trim($route, "/")));
+        }
+        $segments = array_filter(explode('/', trim($uri, "/")));
+
+        // Controlador y método predeterminados
+        $namespace = "App\\Controllers";
+        $method = !empty($segments) ? array_pop($segments) : 'index';
+        $controllerName = !empty($segments) ? ucfirst(array_pop($segments)) . 'Controller' : 'HomeController';
+        $parameters = $segments;
+
+        // Asegurarse de que el método predeterminado sea 'index' si está vacío
+        if (empty($method)) {
+            $method = 'index';
+        }
+
+        // Construir la ruta del controlador
+        $controllerPath = "./app/controllers";
+        foreach ($segments as $folder) {
+            $controllerPath .= '/' . ucfirst($folder);
+            $namespace .= '\\' . ucfirst($folder);
+        }
+        $controllerPath .= "/$controllerName.php";
+
+        // Clase completamente calificada del controlador
         $controllerClass = "$namespace\\$controllerName";
 
-        // Verifica si el controlador existe y lo carga
+        // Validar y ejecutar el controlador
         if (file_exists($controllerPath)) {
             require_once $controllerPath;
             if (class_exists($controllerClass)) {
