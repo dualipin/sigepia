@@ -17,7 +17,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Creacion de variables de entorno en .htaccess
-        run: echo "SetEnv INITIAL_URI $INITIAL_ROUTE" >> .htaccess
+        run: |
+          echo "SetEnv INITIAL_URI $INITIAL_ROUTE" >> .htaccess
+          echo "RewriteEngine On\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteCond %{REQUEST_FILENAME} !-d\nRewriteRule ^(.*)$ /index.php [L]" >> .htaccess
         env:
           INITIAL_ROUTE: /
 
@@ -37,5 +39,3 @@ jobs:
             .vscode/**/*
             **/sql/**/*
           dangerous-clean-slate: true
-          
-          
