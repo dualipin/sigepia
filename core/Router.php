@@ -82,7 +82,7 @@ class Router
         // Construir la ruta del controlador
         $controllerPath = "./app/controllers";
         foreach ($segments as $folder) {
-            $controllerPath .= '/' . ucfirst($folder);
+            $controllerPath .= '/' . $folder;
             $namespace .= '\\' . ucfirst($folder);
         }
         $controllerPath .= "/$controllerName.php";
