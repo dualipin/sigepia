@@ -30,10 +30,14 @@ jobs:
 
       - name: Crear archivo .env
         run: |
-          echo "DB_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+          echo "DB_HOST=${{ secrets.DATABASE_HOST }}" > .env
           echo "DB_NAME=${{ secrets.DATABASE_NAME }}" >> .env
           echo "DB_USER=${{ secrets.DATABASE_USER }}" >> .env
           echo "DB_PASS=${{ secrets.DATABASE_PASSWORD }}" >> .env
+
+      - name: Verificar contenido del .env (debug)
+        run: cat .env
+        
 
       - name: Subir archivos al servidor FTP 🚀🚀📂📂
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
