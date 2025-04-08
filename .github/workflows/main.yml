@@ -20,10 +20,6 @@ jobs:
         run: |
           {
             echo "SetEnv INITIAL_URI $INITIAL_ROUTE";
-            echo "SetEnv DATABASE_HOST ${{ secrets.DATABASE_HOST }}";
-            echo "SetEnv DATABASE_USER ${{ secrets.DATABASE_USER }}";
-            echo "SetEnv DATABASE_PASSWORD ${{ secrets.DATABASE_PASSWORD }}";
-            echo "SetEnv DATABASE_NAME ${{ secrets.DATABASE_NAME }}";
             echo "RewriteEngine On";
             echo "RewriteCond %{REQUEST_FILENAME} !-f";
             echo "RewriteCond %{REQUEST_FILENAME} !-d";
@@ -31,6 +27,13 @@ jobs:
           } >> .htaccess
         env:
           INITIAL_ROUTE: /
+
+      - name: Crear archivo .env
+        run: |
+          echo "DB_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+          echo "DB_NAME=${{ secrets.DATABASE_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DATABASE_USER }}" >> .env
+          echo "DB_PASS=${{ secrets.DATABASE_PASSWORD }}" >> .env
 
       - name: Subir archivos al servidor FTP 🚀🚀📂📂
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

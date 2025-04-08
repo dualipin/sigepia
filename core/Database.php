@@ -14,10 +14,10 @@ use PDO;
 class ConnectionMysql
 {
     private PDO $pdo; // Instancia de PDO
-    private string $host = getenv('DATABASE_HOST', 'localhost');
-    private string $username = getenv('DATABASE_USER', 'root');
-    private string $password = getenv('DATABASE_PASSWORD', 'dualipin');
-    private string $database = getenv('DATABASE_NAME', 'sigepia');
+    private string $host =     DB_HOST;
+    private string $username = DB_NAME;
+    private string $password = DB_USER;
+    private string $database = DB_PASS;
     private string $charset = 'utf8mb4';
 
 
