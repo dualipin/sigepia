@@ -15,9 +15,9 @@ class ConnectionMysql
 {
     private PDO $pdo; // Instancia de PDO
     private string $host =     DB_HOST;
-    private string $username = DB_NAME;
-    private string $password = DB_USER;
-    private string $database = DB_PASS;
+    private string $username = DB_USER;
+    private string $password = DB_PASS;
+    private string $database = DB_NAME;
     private string $charset = 'utf8mb4';
 
 
