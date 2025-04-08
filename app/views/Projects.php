@@ -10,25 +10,32 @@ $proyectos = [
 
 ?>
 
-
 <div class="container my-5">
-    <h1 class="mb-4">Listado de Proyectos - Industrias Alimentarias</h1>
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Estado</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($proyectos as $proyecto): ?>
+    <h1 class="mb-4 text-center">Listado de Proyectos - Industrias Alimentarias</h1>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-primary text-center">
                 <tr>
-                    <td><?= htmlspecialchars($proyecto['nombre']) ?></td>
-                    <td><?= htmlspecialchars($proyecto['descripcion']) ?></td>
-                    <td><?= htmlspecialchars($proyecto['estado']) ?></td>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($proyectos as $proyecto): ?>
+                    <tr>
+                        <td class="fw-bold"><?= htmlspecialchars($proyecto['nombre']) ?></td>
+                        <td><?= htmlspecialchars($proyecto['descripcion']) ?></td>
+                        <td class="text-center">
+                            <span class="badge 
+                                <?= $proyecto['estado'] === 'Completado' ? 'bg-success' : 
+                                    ($proyecto['estado'] === 'En progreso' ? 'bg-warning text-dark' : 'bg-secondary') ?>">
+                                <?= htmlspecialchars($proyecto['estado']) ?>
+                            </span>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
