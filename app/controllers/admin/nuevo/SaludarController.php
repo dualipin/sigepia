@@ -1,5 +1,5 @@
 <?php 
-namespace App\Controllers\Saludo;
+namespace App\Controllers\Saludo\Nuevo;
 
 class SaludarController {
     public function saludo() {

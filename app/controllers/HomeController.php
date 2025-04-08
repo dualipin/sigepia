@@ -1,12 +1,17 @@
 <?php
+
 namespace App\Controllers;
 
-class HomeController{
-    public function index(){
-        echo "Hola desde el controlador HomeController";
-    }
+use Core\Controller;
 
-    public function otroMetodo(){
-        echo "Este es otro método en el controlador HomeController.";
+class HomeController extends Controller
+{
+    public function index()
+    {
+        $this->render('Home');
+    }
+    public function saludo()
+    {
+        echo "¡Hola desde el controlador HomeController!, tu sesión es: " . ($_SESSION['user'] ?? 'no establecida');
     }
 }
