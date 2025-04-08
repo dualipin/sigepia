@@ -11,8 +11,7 @@
 </script>
 
 
-<div class="container-fluid pb-5 pt-4">
-    <img src="<?= ASSETS_IMG ?>/icon.png" alt="icono">
+<div class="container-md pb-5 pt-4">
 
     <div class="row">
         <div class="col-sm-12 text-center">
@@ -109,7 +108,7 @@
     });
 </script>
 
-<script> 
+<script>
     async function fetchNoticias() {
         try {
             const response = await fetch('/noticias/latest')

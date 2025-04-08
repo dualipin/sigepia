@@ -1,15 +1,14 @@
 <?php
 
-namespace Core;
-
-use PDO;
-
 /**
  * Clase conexión de ejemplo, debe crear un archivo de configuración
  * con el nombre Database.php y la clase ConnectionMysql
  * copie el siguiente código y peguelo en el archivo Database.php
  * y cambie los valores de la base de datos, usuario y contraseña
  * con los datos de su base de datos
+ * 
+ * renombre este archivo a Database.php y ajuste los valores de conexión
+ * a su base de datos MySQL.
  */
 class ConnectionMysql
 {

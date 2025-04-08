@@ -1,30 +1,28 @@
-<header>
+<header class="bg-light shadow-sm mb-4 sticky-top">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-md">
-            <a class="navbar-brand" href="<?= INITIAL_ROUTE ?>/">
-                <img src="<?= ASSETS_IMG ?>/icon.png" alt="">
+            <a class="navbar-brand text-wrap" href="<?= INITIAL_ROUTE ?>/">
+                <img src="<?= ASSETS_IMG ?>/icon.png" alt="Logo" class="me-2">
                 SIGEPIA
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-flex justify-content-between " id="navbarNav">
-                <ul class="navbar-nav">
-                    <?php if (isset($_SESSION['user'])): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= INITIAL_ROUTE ?>/home/">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Hola</a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'admin'): ?>
+                    <?php include_once 'menu/AdminMenu.php'; ?>
+                <?php elseif (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'student'): ?>
+                    <?php include_once 'menu/StudentMenu.php'; ?>
+                <?php else: ?>
+                    <?php include_once 'menu/GuestMenu.php'; ?>
+                <?php endif; ?>
+
                 <div class="d-flex align-items-center gap-3">
                     <?php if (isset($_SESSION['user']['name'])): ?>
-                        <span>Bienvenido, <?= htmlspecialchars($_SESSION['user']['name']) ?>!</span>
-                        <a href="<?= INITIAL_ROUTE ?>/auth/logout/" class="btn btn-outline-danger btn-sm">Cerrar</a>
+                        <span class="navbar-text">Bienvenido, <?= htmlspecialchars($_SESSION['user']['name']) ?>!</span>
+                        <a href="<?= INITIAL_ROUTE ?>/auth/logout/" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
                     <?php else: ?>
-                        <a href="/login.php" class="btn btn-outline-primary btn-sm">Login</a>
+                        <a href="<?= INITIAL_ROUTE ?>/auth/login" class="btn btn-outline-primary btn-sm">Iniciar Sesión</a>
                     <?php endif; ?>
                 </div>
             </div>

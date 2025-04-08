@@ -38,6 +38,10 @@ class AuthController extends Controller
         }
     }
 
+    public function register_student(){
+        
+    }
+
     public function logout()
     {
         session_destroy();
