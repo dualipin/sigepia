@@ -34,4 +34,3 @@ $route = INITIAL_ROUTE;
 
 $router = new Router();
 $router->dispatch($route);
-//hOLA PUTOS
