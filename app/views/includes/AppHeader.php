@@ -9,10 +9,12 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'admin'): ?>
-                    <?php include_once 'menu/AdminMenu.php'; ?>
+                <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'careermanager'): ?>
+                    <?php include_once 'menu/CareerManagerMenu.php'; ?>
                 <?php elseif (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'student'): ?>
                     <?php include_once 'menu/StudentMenu.php'; ?>
+                <?php elseif (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'teacher'): ?>
+                    <?php include_once 'menu/TeacherMenu.php'; ?>
                 <?php else: ?>
                     <?php include_once 'menu/GuestMenu.php'; ?>
                 <?php endif; ?>

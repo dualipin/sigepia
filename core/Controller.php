@@ -10,7 +10,7 @@ namespace Core;
 
 class Controller
 {
-    public function render($view, $layout = 'BaseLayout', $data = [])
+    public function render($view, $layout = 'AppLayout', $data = [])
     {
         // Aquí puedes implementar la lógica para renderizar la vista
         // y el layout correspondiente.

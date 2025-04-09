@@ -8,9 +8,11 @@ class HomeController extends Controller
 {
     public function panel()
     {
-        $this->render('admin/home',data: [
+        $this->render('HomePanel',data: [
             'title' => 'Admin Home',
-            'description' => 'Welcome to the admin panel.',
+            'user' => [
+                'name' => 'Admin User',
+            ],
         ]);
     }
 }

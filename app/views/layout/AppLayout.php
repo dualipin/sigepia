@@ -9,7 +9,7 @@
     <link rel="icon" href="<?= INITIAL_ROUTE ?>/assets/img/icon.png" type="image/png">
     <?= $headers ?? '' ?>
 
-    <title><?= $titulo ?? 'SIGEPIA' ?></title>
+    <title><?= $title ?? 'SIGEPIA' ?></title>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -24,7 +24,7 @@
 
     <footer class="bg-light text-center text-lg-start mt-auto">
         <div class="text-center p-3">
-            © 2025 Sistema de Gestión de Proyectos de Alimentaria:
+            © 2025 Sistema de Gestión de Proyectos de Industrias Alimentaria:
             <a class="text-dark" href="https://macuspana.tecnm.mx/">macuspana.tecnm.mx</a>
         </div>
     </footer>

@@ -13,6 +13,7 @@ class ProjectModel extends AbstractModel
             'id' => 1,
             'name' => 'Project 1',
             'description' => 'Description of project 1',
+            'status' => 'active',
             'created_at' => date('Y-m-d H:i:s'),
         ]];
     }
@@ -30,5 +31,20 @@ class ProjectModel extends AbstractModel
     public function find($id)
     {
         // Implement logic to find a record by ID
+    }
+
+    public function create_team($data)
+    {
+        // Implement logic to create a team
+    }
+
+    public function get_active()
+    {
+        return [[
+            'id' => 1,
+            'name' => 'Mermelada',
+            'description' => 'Description of project 1',
+            'created_at' => date('Y-m-d H:i:s'),
+        ]];
     }
 }

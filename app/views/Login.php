@@ -71,10 +71,13 @@
             <div class="col-sm-8 mx-auto">
                 <h2>Visualización de los proyectos</h2>
                 <ul class="list-group">
-                    <li class="list-group-item"><a class="text-decoration-none text-primary" href="moleinfo.html">Mole</a></li>
-                    <li class="list-group-item"><a class="text-decoration-none text-primary" href="mermeinfo.html">Mermelada de tomate</a></li>
-                    <li class="list-group-item"><a class="text-decoration-none text-primary" href="#proyecto3">Proyecto 3</a></li>
-                    <li class="list-group-item"><a class="text-decoration-none text-primary" href="#proyecto4">Proyecto 4</a></li>
+                    <?php if (isset($projects) && count($projects) > 0): ?>
+                        <?php foreach ($projects as $project): ?>
+                            <li class="list-group-item"><?= $project['name'] ?></li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li class="list-group-item">No hay proyectos disponibles</li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -98,7 +101,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
-                    window.location.href = '<?= INITIAL_ROUTE ?>/';
+                    window.location.href = data.to;
                 } else {
                     document.getElementById("loginMessage").innerText = data.message;
                 }
