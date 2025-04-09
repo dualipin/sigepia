@@ -53,14 +53,16 @@
                 <h2>Inicio de Sesión</h2>
                 <div class="mb-3">
                     <label for="Usuario" class="form-label">Usuario</label>
-                    <input type="text" id="Usuario" name="usuario" placeholder="Escribe tu usuario"
+                    <input type="text" id="Usuario" oninput="validarInput(this)" name="usuario" placeholder="Escribe tu usuario"
                         class="form-control" maxlength="13" minlength="13" required>
+                    <p id="resultado"></p>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
                     <input type="password" name="password" id="password" placeholder="Escribe tu contraseña"
                         class="form-control" required>
                 </div>
+
                 <div class="mb-3 text-center">
                     <button type="submit" class="btn btn-outline-primary">Ingresar</button>
                 </div>
@@ -89,23 +91,118 @@
 </div>
 
 <script>
+    //Función para validar un RFC
+    // Devuelve el RFC sin espacios ni guiones si es correcto
+    // Devuelve false si es inválido
+    // (debe estar en mayúsculas, guiones y espacios intermedios opcionales)
+    function rfcValido(rfc, aceptarGenerico = true) {
+        const re = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
+        var validado = rfc.match(re);
+
+        if (!validado) //Coincide con el formato general del regex?
+            return false;
+
+        //Separar el dígito verificador del resto del RFC
+        const digitoVerificador = validado.pop(),
+            rfcSinDigito = validado.slice(1).join(''),
+            len = rfcSinDigito.length,
+
+            //Obtener el digito esperado
+            diccionario = "0123456789ABCDEFGHIJKLMN&OPQRSTUVWXYZ Ñ",
+            indice = len + 1;
+        var suma,
+            digitoEsperado;
+
+        if (len == 12) suma = 0
+        else suma = 481; //Ajuste para persona moral
+
+        for (var i = 0; i < len; i++)
+            suma += diccionario.indexOf(rfcSinDigito.charAt(i)) * (indice - i);
+        digitoEsperado = 11 - suma % 11;
+        if (digitoEsperado == 11) digitoEsperado = 0;
+        else if (digitoEsperado == 10) digitoEsperado = "A";
+
+        //El dígito verificador coincide con el esperado?
+        // o es un RFC Genérico (ventas a público general)?
+        if ((digitoVerificador != digitoEsperado) &&
+            (!aceptarGenerico || rfcSinDigito + digitoVerificador != "XAXX010101000"))
+            return false;
+        else if (!aceptarGenerico && rfcSinDigito + digitoVerificador == "XEXX010101000")
+            return false;
+        return rfcSinDigito + digitoVerificador;
+    }
+
+
+    //Handler para el evento cuando cambia el input
+    // -Lleva la RFC a mayúsculas para validarlo
+    // -Elimina los espacios que pueda tener antes o después
+    function validarInput(input) {
+        var rfc = input.value.trim().toUpperCase(),
+            resultado = document.getElementById("resultado"),
+            valido;
+
+        var rfcCorrecto = rfcValido(rfc); // ⬅️ Acá se comprueba
+
+        if (rfcCorrecto) {
+            valido = "Válido";
+            resultado.classList.add("text-success");
+            resultado.classList.remove("text-danger");
+        } else {
+            valido = "No válido"
+            resultado.classList.add("text-danger");
+            resultado.classList.remove("text-success");
+        }
+
+        resultado.innerText = "Formato: " + valido;
+    }
     document.getElementById("loginForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
+        let usuario = document.getElementById("Usuario").value.trim();
+        let password = document.getElementById("password").value.trim();
+        let loginMessage = document.getElementById("loginMessage");
+
+        // Clear previous messages
+        loginMessage.innerText = "";
+
+        // Basic validations
+        if (usuario === "" || password === "") {
+            loginMessage.innerText = "Por favor, complete todos los campos.";
+            return;
+        }
+
+        if (usuario.length !== 13) {
+            loginMessage.innerText = "El usuario debe tener exactamente 13 caracteres.";
+            return;
+        }
+
+        if (!rfcValido(usuario)) {
+            loginMessage.innerText = "El RFC no es válido.";
+            return;
+        }
+
         let formData = new FormData(this);
 
-        fetch("<?= INITIAL_ROUTE ?>/auth/login", {
+        fetch("<?= htmlspecialchars(INITIAL_ROUTE, ENT_QUOTES, 'UTF-8') ?>/auth/login", {
                 method: "POST",
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.status === "success") {
                     window.location.href = data.to;
                 } else {
-                    document.getElementById("loginMessage").innerText = data.message;
+                    loginMessage.innerText = data.message;
                 }
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => {
+                console.error("Error:", error);
+                loginMessage.innerText = "Ocurrió un error al procesar la solicitud.";
+            });
     });
 </script>

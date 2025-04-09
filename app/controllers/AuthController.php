@@ -22,7 +22,7 @@ class AuthController extends Controller
             if ($username && $password) {
                 $user = [
                     'name' => 'Martin Sanchez',
-                    'role' => 'careermanager',
+                    'role' => 'teacher',
                     'username' => $username,
                 ];
 

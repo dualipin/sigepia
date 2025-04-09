@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\CareerManager;
+namespace App\Controllers\Teacher;
 
 use Core\Controller;
 
@@ -8,9 +8,9 @@ class HomeController extends Controller
     public function panel()
     {
         $this->render('HomePanel', data: [
-            'title' => 'Career Manager Home',
+            'title' => 'Teacher Home',
             'user' => [
-                'name' => 'Career Manager User',
+                'name' => 'Teacher User',
             ],
         ]);
     }

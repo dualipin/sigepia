@@ -11,6 +11,5 @@
         </ul>
     </li>
     <li class="nav-item"><a class="nav-link" href="<?= INITIAL_ROUTE ?>/careermanager/home/projects">Proyectos</a></li>
-    <li class="nav-item"><a class="nav-link" href="<?= INITIAL_ROUTE ?>/">item guest 4</a></li>
-    <li class="nav-item"><a class="nav-link" href="<?= INITIAL_ROUTE ?>/">item guest 5</a></li>
+    <li class="nav-item"><a class="nav-link" href="<?= INITIAL_ROUTE ?>/careermanager/home/teams">Equipos</a></li>
 </ul>
