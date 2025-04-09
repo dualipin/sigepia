@@ -20,7 +20,7 @@
         })
             .then(response => response.json())
             .then(data => {
-                saludoDiv.innerHTML = `<h1>Hola ${data}!</h1>`;
+                saludoDiv.innerHTML = `<h1>Hola ${data}!</h1    >`;
             })
             .catch(error => console.error('Error:', error));
     });
