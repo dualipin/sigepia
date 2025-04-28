@@ -2,11 +2,7 @@
 
 namespace App\Controllers;
 
-use Core\Controller;
-
-use function PHPSTORM_META\map;
-
-class AuthController extends Controller
+class AuthController
 {
     public function login()
     {
@@ -18,12 +14,8 @@ class AuthController extends Controller
 
             // Validar las credenciales
             if ($username && $password) {
-                $user = [
-                    'name' => 'Martin Sanchez',
-                    'username' => $username,
-                ];
                 // Credenciales válidas
-                $_SESSION['user'] = $user; // Almacenar el usuario en la sesión
+                $_SESSION['user'] = $username; // Almacenar el usuario en la sesión
                 echo json_encode(['status' => 'success', 'message' => 'Inicio de sesión exitoso']);
             } else {
                 // Mostrar un mensaje de error si las credenciales son inválidas
@@ -34,18 +26,7 @@ class AuthController extends Controller
             // Lógica de autenticación aquí
         } else {
             // Mostrar el formulario de inicio de sesión
-            $this->render('Login', 'AppLayout');
+            header('Location: /');
         }
-    }
-
-    public function register_student(){
-        
-    }
-
-    public function logout()
-    {
-        session_destroy();
-        header('Location: ' . INITIAL_ROUTE . '/auth/login/');
-        exit;
     }
 }

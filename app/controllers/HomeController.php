@@ -3,28 +3,15 @@
 namespace App\Controllers;
 
 use Core\Controller;
-use App\Models\ProjectModel;
-
-require_once __DIR__ . '/../models/ProjectModel.php';
 
 class HomeController extends Controller
 {
-    private $projectModel;
-    public function __construct()
-    {
-        $this->projectModel = new ProjectModel();
-    }
     public function index()
     {
-        $this->render('Home', 'AppLayout');
+        $this->render('Home');
     }
-    public function projects()
+    public function saludo()
     {
-        $projects = $this->projectModel->getAll();
-        $this->render('projects', 'AppLayout', data: ['projects' => $projects]);
-    }
-    public function dates()
-    {
-        $this->render('dates', 'AppLayout');
+        echo "¡Hola desde el controlador HomeController!, tu sesión es: " . ($_SESSION['user'] ?? 'no establecida');
     }
 }

@@ -1,9 +1,5 @@
 <?php
 
-namespace Core;
-
-use PDO;
-
 /**
  * Clase conexión de ejemplo, debe crear un archivo de configuración
  * con el nombre Database.php y la clase ConnectionMysql
